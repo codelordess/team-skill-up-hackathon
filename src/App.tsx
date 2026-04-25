@@ -3,13 +3,22 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import ProfileBuilder from "./pages/ProfileBuilder.tsx";
+import Auth from "./pages/Auth.tsx";
 import Opportunities from "./pages/Opportunities.tsx";
-import Employers from "./pages/Employers.tsx";
 import TalentMap from "./pages/TalentMap.tsx";
-import TalentProfilePage from "./pages/TalentProfile.tsx";
+import TalentDashboard from "./pages/TalentDashboard.tsx";
+import TalentEdit from "./pages/TalentEdit.tsx";
+import EmployerDashboard from "./pages/EmployerDashboard.tsx";
+import EmployerEdit from "./pages/EmployerEdit.tsx";
+import JobNew from "./pages/JobNew.tsx";
+import JobMatches from "./pages/JobMatches.tsx";
+import TalentSearch from "./pages/TalentSearch.tsx";
+import TalentDetail from "./pages/TalentDetail.tsx";
+import Notifications from "./pages/Notifications.tsx";
 
 const queryClient = new QueryClient();
 
@@ -19,17 +28,34 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/profile" element={<ProfileBuilder />} />
-          <Route path="/opportunities" element={<Opportunities />} />
-          <Route path="/employers" element={<Employers />} />
-          <Route path="/map" element={<TalentMap />} />
-          <Route path="/talent/:id" element={<TalentProfilePage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/opportunities" element={<Opportunities />} />
+            <Route path="/map" element={<TalentMap />} />
+
+            {/* Talent */}
+            <Route path="/talent/dashboard" element={<ProtectedRoute requireRole="talent"><TalentDashboard /></ProtectedRoute>} />
+            <Route path="/talent/edit" element={<ProtectedRoute requireRole="talent"><TalentEdit /></ProtectedRoute>} />
+
+            {/* Employer */}
+            <Route path="/employer/dashboard" element={<ProtectedRoute requireRole="employer"><EmployerDashboard /></ProtectedRoute>} />
+            <Route path="/employer/edit" element={<ProtectedRoute requireRole="employer"><EmployerEdit /></ProtectedRoute>} />
+            <Route path="/employer/jobs/new" element={<ProtectedRoute requireRole="employer"><JobNew /></ProtectedRoute>} />
+            <Route path="/employer/jobs/:id/matches" element={<ProtectedRoute requireRole="employer"><JobMatches /></ProtectedRoute>} />
+            <Route path="/employer/talent" element={<ProtectedRoute requireRole="employer"><TalentSearch /></ProtectedRoute>} />
+            <Route path="/employer/talent/:id" element={<ProtectedRoute requireRole="employer"><TalentDetail /></ProtectedRoute>} />
+
+            {/* Shared */}
+            <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
+      </Toaster>
+    </BrowserRouter>
+  </TooltipProvider>
   </QueryClientProvider>
 );
 
