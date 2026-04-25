@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Layout } from "@/components/Layout";
 import { COUNTRIES, NeedType, SDGS } from "@/data/mockData";
-import { findMatches, Match } from "@/lib/matchmaker";
+import { findMatches, type Match as MatchResult } from "@/lib/matchmaker";
 import { SdgBadge } from "@/components/SdgBadge";
 import { Link } from "react-router-dom";
 import { ArrowRight, Brain, CheckCircle2, Loader2, MapPin, Sparkles } from "lucide-react";
