@@ -1,335 +1,441 @@
-export type SDG = {
-  id: number;
-  label: string;
-  color: string;
-};
+// SkillMap — mock data for talent profiles and opportunities
 
-export const SDGS: SDG[] = [
-  { id: 1, label: "No Poverty", color: "#E5243B" },
-  { id: 2, label: "Zero Hunger", color: "#DDA63A" },
-  { id: 3, label: "Good Health", color: "#4C9F38" },
-  { id: 4, label: "Quality Education", color: "#C5192D" },
-  { id: 5, label: "Gender Equality", color: "#FF3A21" },
-  { id: 6, label: "Clean Water", color: "#26BDE2" },
-  { id: 7, label: "Clean Energy", color: "#FCC30B" },
-  { id: 8, label: "Decent Work", color: "#A21942" },
-  { id: 9, label: "Innovation", color: "#FD6925" },
-  { id: 10, label: "Reduced Inequalities", color: "#DD1367" },
-  { id: 11, label: "Sustainable Cities", color: "#FD9D24" },
-  { id: 12, label: "Responsible Consumption", color: "#BF8B2E" },
-  { id: 13, label: "Climate Action", color: "#3F7E44" },
-  { id: 14, label: "Life Below Water", color: "#0A97D9" },
-  { id: 15, label: "Life on Land", color: "#56C02B" },
-  { id: 16, label: "Peace & Justice", color: "#00689D" },
-  { id: 17, label: "Partnerships", color: "#19486A" },
+export type SkillCategory =
+  | "Frontend Development"
+  | "Backend Development"
+  | "Mobile Development"
+  | "UI/UX Design"
+  | "Graphic Design"
+  | "Video Editing"
+  | "Digital Marketing"
+  | "Content Creation"
+  | "Data & Analytics"
+  | "Phone Repair"
+  | "Tailoring"
+  | "Photography";
+
+export const SKILL_CATEGORIES: { name: SkillCategory; color: string; icon: string }[] = [
+  { name: "Frontend Development", color: "#3B82F6", icon: "💻" },
+  { name: "Backend Development", color: "#8B5CF6", icon: "🛠️" },
+  { name: "Mobile Development", color: "#06B6D4", icon: "📱" },
+  { name: "UI/UX Design", color: "#EC4899", icon: "🎨" },
+  { name: "Graphic Design", color: "#F43F5E", icon: "🖌️" },
+  { name: "Video Editing", color: "#F59E0B", icon: "🎬" },
+  { name: "Digital Marketing", color: "#10B981", icon: "📣" },
+  { name: "Content Creation", color: "#EF4444", icon: "✍️" },
+  { name: "Data & Analytics", color: "#6366F1", icon: "📊" },
+  { name: "Phone Repair", color: "#64748B", icon: "🔧" },
+  { name: "Tailoring", color: "#A855F7", icon: "🧵" },
+  { name: "Photography", color: "#0EA5E9", icon: "📸" },
 ];
 
-export type OrgType = "NGO" | "Funder" | "Corporate CSR" | "Impact Investor" | "Social Enterprise";
-export type NeedType = "Funding" | "Technology" | "Local Partner" | "Implementation Partner" | "Research" | "Volunteers";
+export type ExperienceLevel = "Beginner" | "Beginner–Intermediate" | "Intermediate" | "Intermediate–Advanced" | "Advanced";
 
-export type Organization = {
+export type TalentProfile = {
   id: string;
   name: string;
-  type: OrgType;
-  country: string;
-  region: string;
+  age: number;
+  city: string;
+  country: "Nigeria" | "Ghana" | "Uganda" | "Kenya" | "South Africa";
   flag: string;
-  sector: string;
-  sdgs: number[];
-  mission: string;
-  description: string;
-  needs: NeedType[];
-  strengths: string[];
-  projects: { name: string; impact: string }[];
-  fundingNeed?: string;
-  established: number;
-  reach: string;
-  verified: boolean;
-  website?: string;
+  avatarColor: string;
+  initials: string;
+  rawDescription: string;
+  primarySkill: SkillCategory;
+  detectedSkills: string[];
+  experienceLevel: ExperienceLevel;
+  suggestedRoles: string[];
+  credibilityScore: number; // 0-100
+  proofLinks: { label: string; url: string }[];
+  careerGoals: string;
+  yearsActive: number;
+  available: boolean;
 };
 
-export const ORGANIZATIONS: Organization[] = [
+export const TALENTS: TalentProfile[] = [
   {
-    id: "ng-edugist",
-    name: "Edugist Foundation",
-    type: "NGO",
+    id: "t-kwame",
+    name: "Kwame Mensah",
+    age: 22,
+    city: "Accra",
+    country: "Ghana",
+    flag: "🇬🇭",
+    avatarColor: "#3B82F6",
+    initials: "KM",
+    rawDescription:
+      "I learned React from YouTube and built websites for 3 small businesses in my neighborhood. I also built a small inventory app for my uncle's shop using Firebase.",
+    primarySkill: "Frontend Development",
+    detectedSkills: ["React", "JavaScript", "HTML", "CSS", "Tailwind", "Firebase", "Git"],
+    experienceLevel: "Beginner–Intermediate",
+    suggestedRoles: ["Junior Frontend Developer", "Website Builder (freelance)", "React Intern"],
+    credibilityScore: 78,
+    proofLinks: [
+      { label: "Portfolio site", url: "https://github.com" },
+      { label: "GitHub", url: "https://github.com" },
+    ],
+    careerGoals: "Land a remote junior frontend role with an international startup.",
+    yearsActive: 2,
+    available: true,
+  },
+  {
+    id: "t-amaka",
+    name: "Amaka Okafor",
+    age: 24,
+    city: "Lagos",
     country: "Nigeria",
-    region: "Africa",
     flag: "🇳🇬",
-    sector: "Education",
-    sdgs: [4, 5, 10],
-    mission: "Building safer, tech-enabled learning environments for Nigerian children — leaving no learner behind.",
-    description: "Nigeria-based education NGO running Safe Schools advocacy, the National Student Volunteer Programme, and solar-powered tech learning hubs in rural and underserved communities.",
-    needs: ["Funding", "Technology", "Implementation Partner"],
-    strengths: ["Solar-powered learning hubs", "Safe2Report platform", "Youth entrepreneurship programmes"],
-    projects: [
-      { name: "Safe2Report", impact: "School-safety reporting platform" },
-      { name: "No Learner Left Behind", impact: "Solar-powered rural learning hubs" },
+    avatarColor: "#EC4899",
+    initials: "AO",
+    rawDescription:
+      "I run an Instagram page with 18k followers for a local fashion brand. I shoot the photos, edit reels in CapCut, write captions and run their WhatsApp orders. Sales went up 4x in 8 months.",
+    primarySkill: "Digital Marketing",
+    detectedSkills: ["Social Media Strategy", "CapCut", "Copywriting", "Instagram Ads", "WhatsApp Business", "Photography"],
+    experienceLevel: "Intermediate",
+    suggestedRoles: ["Social Media Manager", "Content Strategist", "E-commerce Marketer"],
+    credibilityScore: 84,
+    proofLinks: [
+      { label: "Instagram case study", url: "https://instagram.com" },
     ],
-    fundingNeed: "Tech & infrastructure for rural learning hubs",
-    established: 2018,
-    reach: "Rural & underserved Nigerian communities",
-    verified: true,
-    website: "https://edugistfoundation.org",
+    careerGoals: "Become a freelance social media consultant for African D2C brands.",
+    yearsActive: 3,
+    available: true,
   },
   {
-    id: "in-pratham",
-    name: "Pratham Education Foundation",
-    type: "NGO",
-    country: "India",
-    region: "Asia",
-    flag: "🇮🇳",
-    sector: "EdTech",
-    sdgs: [4, 9, 10],
-    mission: "Every Child in School and Learning Well — high-quality, low-cost, replicable education at scale.",
-    description: "One of India's largest education NGOs. Runs PraDigi open learning (offline-first tablet-based content) and publishes the ASER national learning assessment. Models replicated across the Global South.",
-    needs: ["Local Partner", "Implementation Partner", "Research"],
-    strengths: ["PraDigi offline learning platform", "ASER assessment framework", "Proven, replicable Teaching at the Right Level model"],
-    projects: [
-      { name: "PraDigi Open Learning", impact: "Offline edtech in 11+ Indian languages" },
-      { name: "ASER", impact: "Annual learning survey across rural India" },
+    id: "t-david",
+    name: "David Ssempala",
+    age: 19,
+    city: "Kampala",
+    country: "Uganda",
+    flag: "🇺🇬",
+    avatarColor: "#F59E0B",
+    initials: "DS",
+    rawDescription:
+      "I edit wedding videos and YouTube content for creators. I use Premiere Pro and DaVinci Resolve. I have edited over 60 projects in the last year.",
+    primarySkill: "Video Editing",
+    detectedSkills: ["Adobe Premiere Pro", "DaVinci Resolve", "Color Grading", "Motion Graphics", "Audio Mixing"],
+    experienceLevel: "Intermediate–Advanced",
+    suggestedRoles: ["Freelance Video Editor", "YouTube Channel Editor", "Wedding Cinematographer"],
+    credibilityScore: 88,
+    proofLinks: [
+      { label: "Showreel", url: "https://youtube.com" },
     ],
-    established: 1995,
-    reach: "Millions of children across India & Global South",
-    verified: true,
-    website: "https://www.pratham.org",
+    careerGoals: "Edit full-time for a US/EU YouTube channel and grow my own studio in Kampala.",
+    yearsActive: 3,
+    available: true,
   },
   {
-    id: "pk-tcf",
-    name: "The Citizens Foundation (TCF)",
-    type: "NGO",
-    country: "Pakistan",
-    region: "Asia",
-    flag: "🇵🇰",
-    sector: "Education",
-    sdgs: [4, 5],
-    mission: "Removing barriers of class and privilege through low-cost formal schools — with a focus on girls.",
-    description: "One of Pakistan's largest privately-owned school networks: 2,000+ school units educating 300,000+ students, with an all-female teaching faculty to encourage girls' enrolment in conservative communities.",
-    needs: ["Funding", "Technology", "Research"],
-    strengths: ["2,000+ school network", "All-female teacher model", "Proven low-cost school operations"],
-    projects: [
-      { name: "TCF Schools Network", impact: "300,000+ students, 21,000 staff" },
-      { name: "Girls Education Programme", impact: "Majority-female student body" },
-    ],
-    fundingNeed: "Curriculum digitisation & teacher tools",
-    established: 1995,
-    reach: "300,000+ students",
-    verified: true,
-    website: "https://www.tcf.org.pk",
+    id: "t-fatima",
+    name: "Fatima Bello",
+    age: 21,
+    city: "Kano",
+    country: "Nigeria",
+    flag: "🇳🇬",
+    avatarColor: "#A855F7",
+    initials: "FB",
+    rawDescription:
+      "I sew traditional and modern wear. I've tailored over 200 outfits in 4 years. I've started using Canva to design lookbooks and run my own small TikTok shop.",
+    primarySkill: "Tailoring",
+    detectedSkills: ["Pattern Making", "Embroidery", "Canva", "TikTok Shop", "Customer Service"],
+    experienceLevel: "Advanced",
+    suggestedRoles: ["Senior Tailor", "Fashion Entrepreneur", "Pattern Designer"],
+    credibilityScore: 81,
+    proofLinks: [{ label: "TikTok shop", url: "https://tiktok.com" }],
+    careerGoals: "Scale my TikTok fashion brand and access a small business loan.",
+    yearsActive: 4,
+    available: true,
   },
   {
-    id: "de-bosch-stiftung",
-    name: "Robert Bosch Stiftung",
-    type: "Funder",
-    country: "Germany",
-    region: "Europe",
-    flag: "🇩🇪",
-    sector: "Education & Climate",
-    sdgs: [4, 7, 13],
-    mission: "One of Europe's largest charitable foundations — funding health, education and global issues.",
-    description: "Germany-based foundation funding social innovation worldwide, including education, climate, migration and health programmes in the Global South. Supports cross-border NGO partnerships.",
-    needs: [],
-    strengths: ["One of Europe's largest foundations", "Multi-year strategic grants", "Cross-border NGO partnerships"],
-    projects: [
-      { name: "Education & Society", impact: "Global education grants programme" },
-      { name: "Climate Change", impact: "Cross-border climate funding" },
-    ],
-    established: 1964,
-    reach: "Grantees across 60+ countries",
-    verified: true,
-    website: "https://www.bosch-stiftung.de/en",
+    id: "t-joseph",
+    name: "Joseph Owusu",
+    age: 23,
+    city: "Kumasi",
+    country: "Ghana",
+    flag: "🇬🇭",
+    avatarColor: "#64748B",
+    initials: "JO",
+    rawDescription:
+      "I repair smartphones — screen replacement, battery, motherboard soldering. I've fixed about 1,200 phones in 3 years. I run a small shop and train 2 apprentices.",
+    primarySkill: "Phone Repair",
+    detectedSkills: ["Screen Replacement", "Micro-soldering", "Diagnostics", "iOS & Android", "Customer Service", "Apprentice Training"],
+    experienceLevel: "Advanced",
+    suggestedRoles: ["Senior Repair Technician", "Workshop Owner", "Apprenticeship Trainer"],
+    credibilityScore: 86,
+    proofLinks: [],
+    careerGoals: "Get certified and open a second branch with a youth apprenticeship programme.",
+    yearsActive: 3,
+    available: true,
   },
   {
-    id: "uk-comic-relief",
-    name: "Comic Relief — Tech for Good",
-    type: "Corporate CSR",
-    country: "United Kingdom",
-    region: "Europe",
-    flag: "🇬🇧",
-    sector: "Tech for Good",
-    sdgs: [4, 8, 9],
-    mission: "Helping charities use technology to better serve the people they support.",
-    description: "UK fundraising charity running the Tech for Good programme (with Paul Hamlyn Foundation and partners like Microsoft) — combining grants with digital design and engineering support for NGOs.",
-    needs: [],
-    strengths: ["Tech for Good fund", "Digital design partnership model", "Microsoft & corporate partners"],
-    projects: [
-      { name: "Tech for Good — Build Fund", impact: "£1.3M to 20 charities" },
-      { name: "Microsoft Partnership", impact: "Digital tools for frontline charities" },
-    ],
-    established: 1985,
-    reach: "Hundreds of UK & global charities",
-    verified: true,
-    website: "https://www.comicrelief.com",
+    id: "t-grace",
+    name: "Grace Nakimuli",
+    age: 20,
+    city: "Kampala",
+    country: "Uganda",
+    flag: "🇺🇬",
+    avatarColor: "#06B6D4",
+    initials: "GN",
+    rawDescription:
+      "I taught myself Figma and design landing pages for friends building small SaaS products. I've shipped 12 designs and 3 of them got coded into production.",
+    primarySkill: "UI/UX Design",
+    detectedSkills: ["Figma", "Wireframing", "Prototyping", "Design Systems", "User Research"],
+    experienceLevel: "Beginner–Intermediate",
+    suggestedRoles: ["Junior UI Designer", "Freelance Product Designer", "Design Intern"],
+    credibilityScore: 74,
+    proofLinks: [{ label: "Figma portfolio", url: "https://figma.com" }],
+    careerGoals: "Get a remote design internship at an early-stage startup.",
+    yearsActive: 1,
+    available: true,
   },
   {
-    id: "ke-one-acre",
-    name: "One Acre Fund",
-    type: "NGO",
-    country: "Kenya",
-    region: "Africa",
-    flag: "🇰🇪",
-    sector: "Climate & Agriculture",
-    sdgs: [13, 15, 2],
-    mission: "Serving smallholder farmers across Sub-Saharan Africa with finance, training and climate-smart inputs.",
-    description: "Operates across Kenya, Rwanda, Burundi, Tanzania, Uganda, Malawi, Zambia, Ethiopia and Nigeria. Trains farmers in regenerative practices and tree planting that improves soils and sequesters carbon.",
-    needs: ["Funding", "Technology", "Research"],
-    strengths: ["Multi-country East African footprint", "Tree-planting & carbon work", "Field-tested agronomy training"],
-    projects: [
-      { name: "Tree Programme", impact: "Tens of millions of trees planted with farmers" },
-      { name: "Climate Resilience", impact: "Regenerative inputs for 1M+ farmers" },
+    id: "t-tunde",
+    name: "Tunde Adebayo",
+    age: 25,
+    city: "Lagos",
+    country: "Nigeria",
+    flag: "🇳🇬",
+    avatarColor: "#8B5CF6",
+    initials: "TA",
+    rawDescription:
+      "I build backend APIs in Node.js and Python. I've worked on 4 paid freelance projects on Upwork — payment integrations with Paystack and Flutterwave, and a logistics dashboard.",
+    primarySkill: "Backend Development",
+    detectedSkills: ["Node.js", "Python", "PostgreSQL", "REST APIs", "Paystack", "Flutterwave", "Docker"],
+    experienceLevel: "Intermediate",
+    suggestedRoles: ["Backend Developer", "Fintech Engineer", "API Developer"],
+    credibilityScore: 82,
+    proofLinks: [
+      { label: "GitHub", url: "https://github.com" },
+      { label: "Upwork profile", url: "https://upwork.com" },
     ],
-    fundingNeed: "Scale climate-resilient agriculture across new districts",
-    established: 2006,
-    reach: "1M+ smallholder farmers",
-    verified: true,
-    website: "https://oneacrefund.org",
+    careerGoals: "Land a full-time remote backend role with a fintech.",
+    yearsActive: 3,
+    available: true,
   },
   {
-    id: "br-saude-alegria",
-    name: "Projeto Saúde e Alegria",
-    type: "NGO",
-    country: "Brazil",
-    region: "Latin America",
-    flag: "🇧🇷",
-    sector: "Health",
-    sdgs: [3, 6, 15],
-    mission: "Health, happiness and sustainable community development in the Brazilian Amazon since 1987.",
-    description: "Operates with riverine and indigenous communities along the Tapajós and Amazon rivers, combining mobile health, education, communication networks (Rede Mocoronga) and sustainable livelihoods.",
-    needs: ["Funding", "Volunteers", "Implementation Partner"],
-    strengths: ["40+ years of Amazon community trust", "Boat-based mobile services", "Community communication network"],
-    projects: [
-      { name: "Rede Mocoronga", impact: "Community communication network in the Amazon" },
-      { name: "Mobile Health Brigades", impact: "Riverine & indigenous communities served" },
-    ],
-    fundingNeed: "Telemedicine & boat clinic expansion",
-    established: 1987,
-    reach: "140+ Amazon communities",
-    verified: true,
-    website: "https://www.saudeealegria.org.br",
-  },
-  {
-    id: "us-acumen",
-    name: "Acumen",
-    type: "Impact Investor",
-    country: "United States",
-    region: "North America",
-    flag: "🇺🇸",
-    sector: "Multi-sector",
-    sdgs: [1, 5, 8, 10],
-    mission: "Investing patient capital in businesses that solve the toughest problems of poverty.",
-    description: "Global non-profit impact investor founded in 2001. Deploys patient capital into early-stage social enterprises across agriculture, energy, education, health and financial inclusion in emerging markets.",
-    needs: [],
-    strengths: ["Patient capital model", "Acumen Academy leadership programmes", "Global portfolio support"],
-    projects: [
-      { name: "Acumen Portfolio", impact: "150+ companies serving low-income customers" },
-      { name: "Green RISE Africa Fellowship", impact: "Climate entrepreneur leadership programme" },
-    ],
-    established: 2001,
-    reach: "150+ portfolio companies in emerging markets",
-    verified: true,
-    website: "https://acumen.org",
+    id: "t-esther",
+    name: "Esther Acheampong",
+    age: 22,
+    city: "Tamale",
+    country: "Ghana",
+    flag: "🇬🇭",
+    avatarColor: "#10B981",
+    initials: "EA",
+    rawDescription:
+      "I write blog content and email newsletters in English and Twi for two NGOs and a local farming cooperative. I've published 80+ articles.",
+    primarySkill: "Content Creation",
+    detectedSkills: ["Long-form Writing", "Email Newsletters", "SEO basics", "Twi/English bilingual", "WordPress"],
+    experienceLevel: "Intermediate",
+    suggestedRoles: ["Content Writer", "Newsletter Editor", "Communications Associate"],
+    credibilityScore: 79,
+    proofLinks: [{ label: "Writing samples", url: "https://medium.com" }],
+    careerGoals: "Freelance for African development organisations and tech publications.",
+    yearsActive: 2,
+    available: true,
   },
 ];
 
-export type Funding = {
+export type OpportunityType = "Job" | "Gig" | "Apprenticeship" | "Training" | "Mentorship";
+
+export type Opportunity = {
   id: string;
   title: string;
-  funder: string;
-  type: "Grant" | "CSR Fund" | "Impact Investment";
-  amount: string;
-  amountValue: number;
-  region: string;
-  sdgs: number[];
-  deadline: string;
+  provider: string;
+  providerType: "Startup" | "SME" | "NGO" | "Remote Employer" | "Bootcamp" | "Mentor Network";
+  type: OpportunityType;
+  location: string;
+  remote: boolean;
+  requiredSkills: string[];
+  matchSkillCategory: SkillCategory;
+  compensation: string;
   description: string;
+  deadline: string;
 };
 
-export const FUNDINGS: Funding[] = [
+export const OPPORTUNITIES: Opportunity[] = [
   {
-    id: "f1",
-    title: "Education & Society Programme",
-    funder: "Robert Bosch Stiftung",
-    type: "Grant",
-    amount: "€50k – €500k",
-    amountValue: 500000,
-    region: "Africa, Asia",
-    sdgs: [4, 5, 10],
+    id: "op-1",
+    title: "Junior Frontend Developer Internship",
+    provider: "Brimble (YC)",
+    providerType: "Startup",
+    type: "Job",
+    location: "Remote · Africa",
+    remote: true,
+    requiredSkills: ["React", "JavaScript", "Tailwind", "Git"],
+    matchSkillCategory: "Frontend Development",
+    compensation: "$600–$900/mo · 6-month internship",
+    description: "Work with a small product team shipping a developer hosting tool. Mentorship from senior engineers.",
     deadline: "Rolling",
-    description: "Multi-year grants for NGOs scaling proven education models across the Global South.",
   },
   {
-    id: "f2",
-    title: "Tech for Good — Build Fund",
-    funder: "Comic Relief",
-    type: "CSR Fund",
-    amount: "£25k – £75k + digital partner",
-    amountValue: 75000,
-    region: "UK & Global",
-    sdgs: [4, 8, 9],
-    deadline: "Annual cohort",
-    description: "Cash plus digital design and engineering support for charities building tech-enabled services.",
+    id: "op-2",
+    title: "Remote Website Builder (10-page marketing site)",
+    provider: "GreenLeaf D2C Brand",
+    providerType: "SME",
+    type: "Gig",
+    location: "Remote",
+    remote: true,
+    requiredSkills: ["React", "Tailwind", "Responsive Design"],
+    matchSkillCategory: "Frontend Development",
+    compensation: "$1,200 fixed",
+    description: "Build a fast, responsive marketing site for a sustainable haircare brand. 4-week timeline.",
+    deadline: "2026-05-20",
   },
   {
-    id: "f3",
-    title: "Acumen Patient Capital",
-    funder: "Acumen",
-    type: "Impact Investment",
-    amount: "$250k – $2M",
-    amountValue: 2000000,
-    region: "Africa, Asia, Latin America",
-    sdgs: [1, 7, 13, 8],
+    id: "op-3",
+    title: "Frontend Bootcamp Scholarship",
+    provider: "ALX Africa",
+    providerType: "Bootcamp",
+    type: "Training",
+    location: "Online · Africa",
+    remote: true,
+    requiredSkills: ["JavaScript basics", "Motivation"],
+    matchSkillCategory: "Frontend Development",
+    compensation: "Fully funded",
+    description: "12-month software engineering programme. Pay-after-you-earn model. Globally recognised.",
+    deadline: "2026-06-10",
+  },
+  {
+    id: "op-4",
+    title: "Social Media Manager — African D2C Brand",
+    provider: "Suya Box",
+    providerType: "SME",
+    type: "Job",
+    location: "Lagos / Remote",
+    remote: true,
+    requiredSkills: ["Instagram", "CapCut", "Copywriting", "Paid Ads"],
+    matchSkillCategory: "Digital Marketing",
+    compensation: "$700/mo + commission",
+    description: "Own social and paid acquisition for a fast-growing food brand. Quarterly bonus on sales growth.",
     deadline: "Rolling",
-    description: "Patient capital for early-stage social enterprises in agriculture, energy, education, health and financial inclusion.",
   },
   {
-    id: "f4",
-    title: "Pan-American Indigenous Health Grant",
-    funder: "Pan American Health Organization (PAHO)",
-    type: "Grant",
-    amount: "$100k – $400k",
-    amountValue: 400000,
-    region: "Latin America",
-    sdgs: [3, 10],
-    deadline: "2026-08-20",
-    description: "Funding for community-led healthcare innovations serving indigenous populations across the Americas.",
+    id: "op-5",
+    title: "YouTube Channel Editor — Tech Reviews",
+    provider: "TechWithTim Network",
+    providerType: "Remote Employer",
+    type: "Job",
+    location: "Remote · Global",
+    remote: true,
+    requiredSkills: ["Premiere Pro", "Color Grading", "Motion Graphics"],
+    matchSkillCategory: "Video Editing",
+    compensation: "$1,500–$2,500/mo",
+    description: "Edit 3 long-form videos a week for a 800k subscriber tech channel. Async work, performance-based pay.",
+    deadline: "2026-05-30",
   },
   {
-    id: "f5",
-    title: "Global Partnership for Education",
-    funder: "Global Partnership for Education (GPE)",
-    type: "Grant",
-    amount: "$75k – $5M",
-    amountValue: 5000000,
-    region: "Asia, Africa",
-    sdgs: [4, 5],
-    deadline: "Rolling country windows",
-    description: "Multilateral fund supporting education systems in lower-income countries, with a focus on girls' education.",
+    id: "op-6",
+    title: "UI Designer Mentorship (12 weeks)",
+    provider: "ADPList — Africa Cohort",
+    providerType: "Mentor Network",
+    type: "Mentorship",
+    location: "Online",
+    remote: true,
+    requiredSkills: ["Figma", "Portfolio willingness"],
+    matchSkillCategory: "UI/UX Design",
+    compensation: "Free · 1:1 weekly mentor",
+    description: "Get matched with a senior product designer. Portfolio reviews, interview prep, intro to hiring partners.",
+    deadline: "2026-05-15",
   },
   {
-    id: "f6",
-    title: "AGRA Smallholder Farmer Programme",
-    funder: "AGRA (Alliance for a Green Revolution in Africa)",
-    type: "Impact Investment",
-    amount: "$500k – $3M",
-    amountValue: 3000000,
-    region: "Africa",
-    sdgs: [2, 13, 15],
-    deadline: "2026-10-15",
-    description: "Catalytic capital and grants for ventures and NGOs serving smallholder farmers at scale across Africa.",
+    id: "op-7",
+    title: "Backend Engineer — Fintech",
+    provider: "Kuda-style Neobank",
+    providerType: "Startup",
+    type: "Job",
+    location: "Remote · Africa",
+    remote: true,
+    requiredSkills: ["Node.js", "PostgreSQL", "Paystack", "Docker"],
+    matchSkillCategory: "Backend Development",
+    compensation: "$2,000–$3,500/mo",
+    description: "Build the next iteration of payments and KYC services. Strong fintech security culture.",
+    deadline: "Rolling",
+  },
+  {
+    id: "op-8",
+    title: "Mobile Repair Master Apprenticeship",
+    provider: "Tecno Mobile West Africa",
+    providerType: "SME",
+    type: "Apprenticeship",
+    location: "Accra / Lagos",
+    remote: false,
+    requiredSkills: ["Diagnostics", "Soldering", "Customer Service"],
+    matchSkillCategory: "Phone Repair",
+    compensation: "Stipend + certification",
+    description: "12-month official Tecno-certified repair apprenticeship. Tools and certificate provided on completion.",
+    deadline: "2026-07-01",
+  },
+  {
+    id: "op-9",
+    title: "Tailoring Microloan + Mentor Programme",
+    provider: "Tony Elumelu Foundation",
+    providerType: "NGO",
+    type: "Training",
+    location: "Pan-African",
+    remote: false,
+    requiredSkills: ["Existing tailoring business", "Business plan"],
+    matchSkillCategory: "Tailoring",
+    compensation: "$5,000 grant + 12-week training",
+    description: "TEF Entrepreneurship Programme — seed capital and business mentoring for African micro-entrepreneurs.",
+    deadline: "2026-06-30",
+  },
+  {
+    id: "op-10",
+    title: "Bilingual Content Writer (English/Twi)",
+    provider: "Climate Action Africa",
+    providerType: "NGO",
+    type: "Gig",
+    location: "Remote · Ghana",
+    remote: true,
+    requiredSkills: ["Long-form Writing", "Bilingual Twi/English", "SEO"],
+    matchSkillCategory: "Content Creation",
+    compensation: "$300/article · 6 articles",
+    description: "Write 6 evidence-based articles on climate adaptation in West Africa for both English and Twi audiences.",
+    deadline: "2026-05-25",
   },
 ];
 
-export const COUNTRIES = Array.from(new Set(ORGANIZATIONS.map(o => o.country))).sort();
-export const SECTORS = Array.from(new Set(ORGANIZATIONS.map(o => o.sector))).sort();
+// Cities for talent map (lat/lng-style percentage coords on stylised Africa map)
+export const CITY_COORDS: Record<string, { x: number; y: number; country: string; flag: string }> = {
+  Lagos: { x: 32, y: 62, country: "Nigeria", flag: "🇳🇬" },
+  Kano: { x: 38, y: 48, country: "Nigeria", flag: "🇳🇬" },
+  Accra: { x: 26, y: 64, country: "Ghana", flag: "🇬🇭" },
+  Kumasi: { x: 24, y: 60, country: "Ghana", flag: "🇬🇭" },
+  Tamale: { x: 25, y: 54, country: "Ghana", flag: "🇬🇭" },
+  Kampala: { x: 64, y: 70, country: "Uganda", flag: "🇺🇬" },
+};
 
-// Map coordinates (approximate, percentage on world map)
-export const MAP_LOCATIONS: Record<string, { x: number; y: number }> = {
-  "Nigeria": { x: 49, y: 56 },
-  "India": { x: 70, y: 50 },
-  "Pakistan": { x: 67, y: 46 },
-  "Germany": { x: 51, y: 32 },
-  "United Kingdom": { x: 47, y: 30 },
-  "Kenya": { x: 56, y: 60 },
-  "Brazil": { x: 33, y: 68 },
-  "United States": { x: 22, y: 40 },
+export const COUNTRIES = ["Nigeria", "Ghana", "Uganda"] as const;
+
+// Aggregated city skill clusters (mock — for talent map summary)
+export const CITY_SKILL_CLUSTERS: Record<string, { skill: SkillCategory; count: number }[]> = {
+  Lagos: [
+    { skill: "Frontend Development", count: 200 },
+    { skill: "UI/UX Design", count: 150 },
+    { skill: "Digital Marketing", count: 100 },
+    { skill: "Backend Development", count: 90 },
+  ],
+  Accra: [
+    { skill: "Frontend Development", count: 120 },
+    { skill: "Video Editing", count: 80 },
+    { skill: "Graphic Design", count: 60 },
+    { skill: "Phone Repair", count: 55 },
+  ],
+  Kampala: [
+    { skill: "Video Editing", count: 95 },
+    { skill: "UI/UX Design", count: 70 },
+    { skill: "Content Creation", count: 50 },
+  ],
+  Kano: [
+    { skill: "Tailoring", count: 140 },
+    { skill: "Phone Repair", count: 70 },
+    { skill: "Photography", count: 40 },
+  ],
+  Kumasi: [
+    { skill: "Phone Repair", count: 110 },
+    { skill: "Tailoring", count: 80 },
+    { skill: "Graphic Design", count: 45 },
+  ],
+  Tamale: [
+    { skill: "Content Creation", count: 60 },
+    { skill: "Digital Marketing", count: 40 },
+  ],
 };

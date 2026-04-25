@@ -5,11 +5,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import Discover from "./pages/Discover.tsx";
-import Match from "./pages/Match.tsx";
-import Funding from "./pages/Funding.tsx";
-import OrgProfile from "./pages/OrgProfile.tsx";
-import ImpactMap from "./pages/ImpactMap.tsx";
+import ProfileBuilder from "./pages/ProfileBuilder.tsx";
+import Opportunities from "./pages/Opportunities.tsx";
+import Employers from "./pages/Employers.tsx";
+import TalentMap from "./pages/TalentMap.tsx";
+import TalentProfilePage from "./pages/TalentProfile.tsx";
 
 const queryClient = new QueryClient();
 
@@ -21,11 +21,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route path="/match" element={<Match />} />
-          <Route path="/funding" element={<Funding />} />
-          <Route path="/map" element={<ImpactMap />} />
-          <Route path="/org/:id" element={<OrgProfile />} />
+          <Route path="/profile" element={<ProfileBuilder />} />
+          <Route path="/opportunities" element={<Opportunities />} />
+          <Route path="/employers" element={<Employers />} />
+          <Route path="/map" element={<TalentMap />} />
+          <Route path="/talent/:id" element={<TalentProfilePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

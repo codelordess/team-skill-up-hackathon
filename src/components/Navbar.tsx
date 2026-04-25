@@ -1,13 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { Globe2, Sparkles } from "lucide-react";
+import { MapPin, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
   { to: "/", label: "Home" },
-  { to: "/discover", label: "Discover NGOs" },
-  { to: "/match", label: "AI Matchmaker" },
-  { to: "/funding", label: "Funding" },
-  { to: "/map", label: "Impact Map" },
+  { to: "/profile", label: "Build Profile" },
+  { to: "/opportunities", label: "Opportunities" },
+  { to: "/employers", label: "For Employers" },
+  { to: "/map", label: "Talent Map" },
 ];
 
 export const Navbar = () => {
@@ -17,12 +17,12 @@ export const Navbar = () => {
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
           <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-primary shadow-glow">
-            <Globe2 className="h-5 w-5 text-primary-foreground" />
+            <MapPin className="h-5 w-5 text-primary-foreground" />
             <Sparkles className="absolute -right-1 -top-1 h-3.5 w-3.5 text-accent" />
           </div>
           <div className="leading-tight">
-            <div className="font-display text-lg font-bold">Opportunity<span className="text-gradient">AI</span></div>
-            <div className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Impact intelligence</div>
+            <div className="font-display text-lg font-bold">Skill<span className="text-gradient">Map</span></div>
+            <div className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Make talent visible</div>
           </div>
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
@@ -45,10 +45,10 @@ export const Navbar = () => {
           })}
         </nav>
         <Link
-          to="/match"
+          to="/profile"
           className="hidden md:inline-flex items-center gap-2 rounded-lg bg-gradient-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-elegant transition-smooth hover:shadow-glow"
         >
-          <Sparkles className="h-4 w-4" /> Find Partners
+          <Sparkles className="h-4 w-4" /> Create Profile
         </Link>
       </div>
     </header>
