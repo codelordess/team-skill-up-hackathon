@@ -15,7 +15,7 @@ const Match = () => {
   const [sdgs, setSdgs] = useState<number[]>([4]);
   const [needs, setNeeds] = useState<NeedType[]>(["Technology", "Funding"]);
   const [challenge, setChallenge] = useState("We run rural community schools in northern Nigeria and need an offline-first digital learning platform plus multi-year funding to scale from 42 to 200 hubs.");
-  const [results, setResults] = useState<Match[] | null>(null);
+  const [results, setResults] = useState<MatchResult[] | null>(null);
   const [loading, setLoading] = useState(false);
 
   const toggle = <T,>(arr: T[], v: T) => arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
@@ -170,7 +170,7 @@ const Field = ({ label, children, className }: { label: string; children: React.
   </div>
 );
 
-const MatchCard = ({ match, rank }: { match: Match; rank: number }) => {
+const MatchCard = ({ match, rank }: { match: MatchResult; rank: number }) => {
   const { org, score, reasons } = match;
   return (
     <div className="group overflow-hidden rounded-2xl border border-border bg-gradient-card shadow-card transition-smooth hover:shadow-elegant">
