@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Layout } from "@/components/Layout";
 import { OPPORTUNITIES, OpportunityType, SKILL_CATEGORIES, SkillCategory } from "@/data/mockData";
+import { supabase } from "@/integrations/supabase/client";
 import { Briefcase, Calendar, DollarSign, Filter, Globe, MapPin, Sparkles } from "lucide-react";
 
 const TYPES: OpportunityType[] = ["Job", "Gig", "Apprenticeship", "Training", "Mentorship"];
@@ -10,14 +11,38 @@ const Opportunities = () => {
   const [skill, setSkill] = useState<SkillCategory | "">("");
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [q, setQ] = useState("");
+  const [liveJobs, setLiveJobs] = useState<any[]>([]);
 
-  const results = useMemo(() => OPPORTUNITIES.filter(o => {
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("jobs").select("*, employers(company_name)").eq("active", true).order("created_at", { ascending: false });
+      const mapped = (data || []).map((j: any) => ({
+        id: `live-${j.id}`,
+        title: j.title,
+        provider: j.employers?.company_name || "Employer",
+        providerType: "Remote Employer" as const,
+        type: "Job" as OpportunityType,
+        location: j.location || "Remote",
+        remote: (j.job_type || "").toLowerCase() === "remote",
+        requiredSkills: j.required_skills || [],
+        matchSkillCategory: "Frontend Development" as SkillCategory,
+        compensation: "Open",
+        description: j.description || "Apply to learn more about this opportunity.",
+        deadline: "Live",
+      }));
+      setLiveJobs(mapped);
+    })();
+  }, []);
+
+  const all = [...liveJobs, ...OPPORTUNITIES];
+  const results = useMemo(() => all.filter(o => {
     if (type && o.type !== type) return false;
     if (skill && o.matchSkillCategory !== skill) return false;
     if (remoteOnly && !o.remote) return false;
     if (q && !`${o.title} ${o.provider} ${o.description}`.toLowerCase().includes(q.toLowerCase())) return false;
     return true;
-  }), [type, skill, remoteOnly, q]);
+  }), [type, skill, remoteOnly, q, all]);
+
 
   return (
     <Layout>
