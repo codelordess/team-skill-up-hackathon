@@ -14,16 +14,273 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      employers: {
+        Row: {
+          company_name: string
+          created_at: string
+          description: string | null
+          id: string
+          industry: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          company_name: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          company_name?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          active: boolean | null
+          created_at: string
+          description: string | null
+          employer_id: string
+          id: string
+          job_type: string | null
+          location: string | null
+          required_skills: string[] | null
+          title: string
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string
+          description?: string | null
+          employer_id: string
+          id?: string
+          job_type?: string | null
+          location?: string | null
+          required_skills?: string[] | null
+          title: string
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string
+          description?: string | null
+          employer_id?: string
+          id?: string
+          job_type?: string | null
+          location?: string | null
+          required_skills?: string[] | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jobs_employer_id_fkey"
+            columns: ["employer_id"]
+            isOneToOne: false
+            referencedRelation: "employers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read: boolean | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profile_views: {
+        Row: {
+          created_at: string
+          id: string
+          talent_user_id: string
+          viewer_user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          talent_user_id: string
+          viewer_user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          talent_user_id?: string
+          viewer_user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          location: string | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          location?: string | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          location?: string | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      saved_candidates: {
+        Row: {
+          created_at: string
+          employer_user_id: string
+          id: string
+          talent_user_id: string
+        }
+        Insert: {
+          created_at?: string
+          employer_user_id: string
+          id?: string
+          talent_user_id: string
+        }
+        Update: {
+          created_at?: string
+          employer_user_id?: string
+          id?: string
+          talent_user_id?: string
+        }
+        Relationships: []
+      }
+      talents: {
+        Row: {
+          available: boolean | null
+          career_goals: string | null
+          created_at: string
+          credibility_score: number | null
+          experience_level: string | null
+          extracted_skills: string[] | null
+          id: string
+          primary_skill: string | null
+          profile_views: number | null
+          proof_links: Json | null
+          skill_description: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          available?: boolean | null
+          career_goals?: string | null
+          created_at?: string
+          credibility_score?: number | null
+          experience_level?: string | null
+          extracted_skills?: string[] | null
+          id?: string
+          primary_skill?: string | null
+          profile_views?: number | null
+          proof_links?: Json | null
+          skill_description?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          available?: boolean | null
+          career_goals?: string | null
+          created_at?: string
+          credibility_score?: number | null
+          experience_level?: string | null
+          extracted_skills?: string[] | null
+          id?: string
+          primary_skill?: string | null
+          profile_views?: number | null
+          proof_links?: Json | null
+          skill_description?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "talent" | "employer" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +407,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["talent", "employer", "admin"],
+    },
   },
 } as const
