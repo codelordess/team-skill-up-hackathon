@@ -8,10 +8,14 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Auth from "./pages/Auth.tsx";
+import VerifyEmail from "./pages/VerifyEmail.tsx";
+import ForgotPassword from "./pages/ForgotPassword.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import Opportunities from "./pages/Opportunities.tsx";
 import TalentMap from "./pages/TalentMap.tsx";
 import TalentDashboard from "./pages/TalentDashboard.tsx";
 import TalentEdit from "./pages/TalentEdit.tsx";
+import SkillAssessment from "./pages/SkillAssessment.tsx";   // ← NEW
 import EmployerDashboard from "./pages/EmployerDashboard.tsx";
 import EmployerEdit from "./pages/EmployerEdit.tsx";
 import JobNew from "./pages/JobNew.tsx";
@@ -31,24 +35,63 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+
+            {/* ── Auth ── */}
             <Route path="/auth" element={<Auth />} />
+            <Route path="/auth/verify-email" element={<VerifyEmail />} />
+            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+            <Route path="/auth/reset-password" element={<ResetPassword />} />
+
+            {/* ── Public ── */}
             <Route path="/opportunities" element={<Opportunities />} />
             <Route path="/map" element={<TalentMap />} />
 
-            {/* Talent */}
-            <Route path="/talent/dashboard" element={<ProtectedRoute requireRole="talent"><TalentDashboard /></ProtectedRoute>} />
-            <Route path="/talent/edit" element={<ProtectedRoute requireRole="talent"><TalentEdit /></ProtectedRoute>} />
+            {/* ── Talent ── */}
+            <Route
+              path="/talent/dashboard"
+              element={<ProtectedRoute requireRole="talent"><TalentDashboard /></ProtectedRoute>}
+            />
+            <Route
+              path="/talent/edit"
+              element={<ProtectedRoute requireRole="talent"><TalentEdit /></ProtectedRoute>}
+            />
+            {/* ── NEW: Skill Assessment ── */}
+            <Route
+              path="/talent/assessment"
+              element={<ProtectedRoute requireRole="talent"><SkillAssessment /></ProtectedRoute>}
+            />
 
-            {/* Employer */}
-            <Route path="/employer/dashboard" element={<ProtectedRoute requireRole="employer"><EmployerDashboard /></ProtectedRoute>} />
-            <Route path="/employer/edit" element={<ProtectedRoute requireRole="employer"><EmployerEdit /></ProtectedRoute>} />
-            <Route path="/employer/jobs/new" element={<ProtectedRoute requireRole="employer"><JobNew /></ProtectedRoute>} />
-            <Route path="/employer/jobs/:id/matches" element={<ProtectedRoute requireRole="employer"><JobMatches /></ProtectedRoute>} />
-            <Route path="/employer/talent" element={<ProtectedRoute requireRole="employer"><TalentSearch /></ProtectedRoute>} />
-            <Route path="/employer/talent/:id" element={<ProtectedRoute requireRole="employer"><TalentDetail /></ProtectedRoute>} />
+            {/* ── Employer ── */}
+            <Route
+              path="/employer/dashboard"
+              element={<ProtectedRoute requireRole="employer"><EmployerDashboard /></ProtectedRoute>}
+            />
+            <Route
+              path="/employer/edit"
+              element={<ProtectedRoute requireRole="employer"><EmployerEdit /></ProtectedRoute>}
+            />
+            <Route
+              path="/employer/jobs/new"
+              element={<ProtectedRoute requireRole="employer"><JobNew /></ProtectedRoute>}
+            />
+            <Route
+              path="/employer/jobs/:id/matches"
+              element={<ProtectedRoute requireRole="employer"><JobMatches /></ProtectedRoute>}
+            />
+            <Route
+              path="/employer/talent"
+              element={<ProtectedRoute requireRole="employer"><TalentSearch /></ProtectedRoute>}
+            />
+            <Route
+              path="/employer/talent/:id"
+              element={<ProtectedRoute requireRole="employer"><TalentDetail /></ProtectedRoute>}
+            />
 
-            {/* Shared */}
-            <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+            {/* ── Shared Protected ── */}
+            <Route
+              path="/notifications"
+              element={<ProtectedRoute><Notifications /></ProtectedRoute>}
+            />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
