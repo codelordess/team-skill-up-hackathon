@@ -13,9 +13,9 @@ export const Footer = () => (
           <span className="text-sm text-muted-foreground">— Making invisible talent visible.</span>
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground">
-          <Link to="/profile" className="hover:text-foreground">Build Profile</Link>
+          <Link to="/auth?mode=signup&role=talent" className="hover:text-foreground">Build Profile</Link>
           <Link to="/opportunities" className="hover:text-foreground">Opportunities</Link>
-          <Link to="/employers" className="hover:text-foreground">Employers</Link>
+          <Link to="/auth?mode=signup&role=employer" className="hover:text-foreground">Employers</Link>
           <Link to="/map" className="hover:text-foreground">Talent Map</Link>
         </div>
         <div className="text-xs text-muted-foreground">© 2026 SkillMap · Built for the next billion</div>
