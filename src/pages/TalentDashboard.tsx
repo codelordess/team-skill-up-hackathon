@@ -30,6 +30,18 @@ type ExternalJobMatch = { job: ExternalJob; match_score: number; reason: string 
 
 const API_BASE = (import.meta as any).env?.VITE_API_URL ?? "https://skillmap-gy34.onrender.com";
 
+/** Strip HTML tags and decode common entities for safe plain-text display */
+const stripHtml = (html: string): string => {
+  if (!html) return "";
+  return html
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, " ")
+    .replace(/&mdash;/g, "—").replace(/&ndash;/g, "–").replace(/&hellip;/g, "…")
+    .replace(/&bull;/g, "•")
+    .replace(/\s+/g, " ").trim();
+};
+
 const TalentDashboard = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -88,7 +100,7 @@ const TalentDashboard = () => {
 
     (async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/v1/talent/external-jobs`, {
+        const res = await fetch(`${API_BASE}/v1/talent/external-jobs`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
@@ -376,10 +388,10 @@ const TalentDashboard = () => {
                       )}
                     </div>
 
-                    {/* Description snippet */}
+                    {/* Description snippet — HTML stripped */}
                     {job.description && (
                       <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                        {job.description}
+                        {stripHtml(job.description)}
                       </p>
                     )}
 
