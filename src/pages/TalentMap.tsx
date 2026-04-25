@@ -151,19 +151,13 @@ const TalentMap = () => {
                 </div>
                 <div className="space-y-2">
                   {talentInCity.map(t => (
-                    <Link key={t.id} to={`/talent/${t.id}`} className="flex items-center gap-3 rounded-xl border border-border bg-card p-2.5 transition-smooth hover:border-primary/40 hover:shadow-card">
-                      <div
-                        className="flex h-9 w-9 items-center justify-center rounded-lg text-xs font-bold text-white"
-                        style={{ backgroundColor: t.avatarColor }}
-                      >
-                        {t.initials}
-                      </div>
+                    <div key={t.id} className="flex items-center gap-3 rounded-xl border border-border bg-card p-2.5">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg text-xs font-bold text-white" style={{ backgroundColor: t.avatarColor }}>{t.initials}</div>
                       <div className="flex-1 text-sm">
                         <div className="font-semibold">{t.name}</div>
                         <div className="text-xs text-muted-foreground">{t.primarySkill}</div>
                       </div>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                    </Link>
+                    </div>
                   ))}
                 </div>
               </div>

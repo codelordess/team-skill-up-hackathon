@@ -62,14 +62,14 @@ const Index = () => {
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Link
-                to="/profile"
+                to="/auth?mode=signup&role=talent"
                 className="group inline-flex items-center gap-2 rounded-xl bg-gradient-accent px-7 py-4 text-base font-bold text-accent-foreground shadow-elegant transition-smooth hover:shadow-glow"
               >
                 Create my profile
                 <ArrowRight className="h-5 w-5 transition-smooth group-hover:translate-x-1" />
               </Link>
               <Link
-                to="/employers"
+                to="/auth?mode=signup&role=employer"
                 className="inline-flex items-center gap-2 rounded-xl border border-navy-foreground/20 bg-navy-foreground/5 px-7 py-4 text-base font-semibold text-navy-foreground backdrop-blur-sm transition-smooth hover:bg-navy-foreground/10"
               >
                 I'm hiring
@@ -152,7 +152,7 @@ const Index = () => {
             <div className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">Featured talent</div>
             <h2 className="text-3xl font-bold md:text-4xl">Real people. Real skills.</h2>
           </div>
-          <Link to="/employers" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline md:inline-flex">
+          <Link to="/auth?mode=signup&role=employer" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline md:inline-flex">
             Browse all talent <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -179,7 +179,7 @@ const Index = () => {
                 a website-builder gig, and a fully-funded bootcamp scholarship.
               </p>
               <Link
-                to="/profile"
+                to="/auth?mode=signup&role=talent"
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-primary px-6 py-3 font-semibold text-primary-foreground shadow-card transition-smooth hover:shadow-glow"
               >
                 Try the demo <Sparkles className="h-4 w-4" />
@@ -202,7 +202,7 @@ const Index = () => {
               Tell us what you do. Our AI builds your profile and finds the opportunities you didn't know existed.
             </p>
             <Link
-              to="/profile"
+              to="/auth?mode=signup&role=talent"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-accent px-8 py-4 font-bold text-accent-foreground shadow-elegant transition-smooth hover:shadow-glow"
             >
               Build my profile
