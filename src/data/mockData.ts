@@ -45,6 +45,7 @@ export type Organization = {
   established: number;
   reach: string;
   verified: boolean;
+  website?: string;
 };
 
 export const ORGANIZATIONS: Organization[] = [
