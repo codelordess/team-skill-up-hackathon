@@ -13,6 +13,15 @@ type Talent = {
   career_goals: string | null; available: boolean; profile_views: number;
 };
 type Job = { id: string; title: string; description: string | null; required_skills: string[]; location: string | null; job_type: string; employer_id: string };
+type Application = {
+  id: string;
+  job_id: string;
+  status: "pending" | "reviewed" | "shortlisted" | "rejected";
+  created_at: string;
+  job_title: string;
+  employer_name: string;
+};
+
 type AssessmentRecord = {
   id: string; skill: string; experience_level: string; overall_score: number;
   grade: string; badge: string; correct_answers: number; total_questions: number;
@@ -50,6 +59,7 @@ const TalentDashboard = () => {
   const [employerNames, setEmployerNames] = useState<Record<string, string>>({});
   const [viewers, setViewers] = useState<{ name: string; created_at: string }[]>([]);
   const [latestAssessment, setLatestAssessment] = useState<AssessmentRecord | null>(null);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
 
   // ── External jobs state ──────────────────────────────────────────────────
@@ -61,17 +71,28 @@ const TalentDashboard = () => {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const [{ data: p }, { data: t }, { data: js }, { data: vw }, { data: asm }] = await Promise.all([
+      const [{ data: p }, { data: t }, { data: js }, { data: vw }, { data: asm }, { data: appsData }] = await Promise.all([
         supabase.from("profiles").select("name,email,location").eq("id", user.id).maybeSingle(),
         supabase.from("talents").select("*").eq("user_id", user.id).maybeSingle(),
         supabase.from("jobs").select("*").eq("active", true),
         supabase.from("profile_views").select("viewer_user_id, created_at").eq("talent_user_id", user.id).order("created_at", { ascending: false }).limit(5),
         supabase.from("skill_assessments").select("*").eq("user_id", user.id).order("taken_at", { ascending: false }).limit(1).maybeSingle(),
+        supabase.from("job_applications").select("id, job_id, status, created_at, jobs(title, employers(company_name))").eq("talent_user_id", user.id).order("created_at", { ascending: false }).limit(10),
       ]);
       setProfile(p as any);
       setTalent(t as any);
       setJobs((js as any) || []);
       if (asm) setLatestAssessment(asm as any);
+      if (appsData) {
+        setApplications(appsData.map((a: any) => ({
+          id: a.id,
+          job_id: a.job_id,
+          status: a.status,
+          created_at: a.created_at,
+          job_title: a.jobs?.title || "Job",
+          employer_name: a.jobs?.employers?.company_name || "Employer",
+        })));
+      }
       if (js?.length) {
         const empIds = Array.from(new Set(js.map((j: any) => j.employer_id)));
         const { data: emps } = await supabase.from("employers").select("id,company_name").in("id", empIds);
@@ -173,8 +194,9 @@ const TalentDashboard = () => {
 
       <section className="container py-10 space-y-8">
         {/* Profile overview + completeness */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 rounded-2xl border border-border bg-card p-6 shadow-card">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
+          <div className="flex flex-wrap items-start gap-6">
+          <div className="flex-1 min-w-0">
             <div className="flex items-start gap-4">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-primary font-display text-2xl font-extrabold text-primary-foreground shadow-glow">
                 {(profile?.name || "U").split(" ").map(n => n[0]).slice(0, 2).join("")}
@@ -213,12 +235,15 @@ const TalentDashboard = () => {
               </div>
             )}
           </div>
-
-          <div className="space-y-4">
-            <StatCard icon={Eye} label="Profile views" value={talent?.profile_views || viewers.length || 0} accent="primary" />
-            <StatCard icon={Briefcase} label="Matched roles" value={matches.length} accent="accent" />
-            <StatCard icon={UserCheck} label="Visibility" value={talent?.available ? "Active" : "Hidden"} accent="success" />
           </div>
+        </div>
+
+        {/* Stats row */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <StatCard icon={Eye} label="Profile views" value={talent?.profile_views || viewers.length || 0} accent="primary" />
+          <StatCard icon={Briefcase} label="Matched roles" value={matches.length} accent="accent" />
+          <StatCard icon={Globe} label="External matches" value={externalLoading ? "..." : externalMatches.length} accent="external" />
+          <StatCard icon={UserCheck} label="Visibility" value={talent?.available ? "Active" : "Hidden"} accent="success" />
         </div>
 
         {/* ── Assessment Rating Card ───────────────────────────────────── */}
@@ -429,6 +454,43 @@ const TalentDashboard = () => {
         )}
         {/* ── END Live External Jobs ───────────────────────────────────── */}
 
+        {/* My applications */}
+        {applications.length > 0 && (
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-card space-y-4">
+            <h3 className="font-display text-lg font-bold flex items-center gap-2">
+              <Briefcase className="h-5 w-5 text-primary" /> My Applications
+            </h3>
+            <div className="space-y-2">
+              {applications.map(app => {
+                const statusStyle = {
+                  pending:     "bg-secondary text-muted-foreground",
+                  reviewed:    "bg-blue-500/10 text-blue-500",
+                  shortlisted: "bg-success/10 text-success",
+                  rejected:    "bg-red-500/10 text-red-500",
+                }[app.status];
+                const StatusIcon = {
+                  pending: Clock, reviewed: Sparkles,
+                  shortlisted: CheckCircle2, rejected: XCircle,
+                }[app.status];
+                return (
+                  <div key={app.id} className="flex items-center justify-between gap-3 rounded-xl border border-border p-3">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm truncate">{app.job_title}</p>
+                      <p className="text-xs text-muted-foreground truncate">{app.employer_name} · {new Date(app.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</p>
+                    </div>
+                    <span className={`shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase ${statusStyle}`}>
+                      <StatusIcon className="h-3 w-3" /> {app.status}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <a href="/opportunities" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+              Browse more opportunities →
+            </a>
+          </div>
+        )}
+
         {/* Employer interest */}
         {viewers.length > 0 && (
           <div className="rounded-2xl border border-border bg-gradient-card p-6 shadow-card">
@@ -453,15 +515,25 @@ const Pill = ({ icon: Icon, label, variant }: any) => {
   return <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${cls}`}><Icon className="h-3 w-3" /> {label}</span>;
 };
 
-const StatCard = ({ icon: Icon, label, value, accent }: any) => (
-  <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
-    <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent === "primary" ? "bg-primary/10 text-primary" : accent === "accent" ? "bg-accent/15 text-accent" : "bg-success/10 text-success"}`}>
-      <Icon className="h-5 w-5" />
+const StatCard = ({ icon: Icon, label, value, accent }: any) => {
+  const colors: Record<string, string> = {
+    primary: "bg-primary/10 text-primary",
+    accent: "bg-accent/15 text-accent",
+    external: "bg-blue-500/10 text-blue-500",
+    success: "bg-success/10 text-success",
+  };
+  return (
+    <div className="rounded-2xl border border-border bg-card p-4 shadow-card flex items-center gap-4">
+      <div className={`shrink-0 flex h-11 w-11 items-center justify-center rounded-xl ${colors[accent] || colors.success}`}>
+        <Icon className="h-5 w-5" />
+      </div>
+      <div className="min-w-0">
+        <div className="font-display text-2xl font-extrabold leading-none">{value}</div>
+        <div className="mt-0.5 text-xs uppercase tracking-wider text-muted-foreground truncate">{label}</div>
+      </div>
     </div>
-    <div className="font-display text-2xl font-extrabold">{value}</div>
-    <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
-  </div>
-);
+  );
+};
 
 const MatchBadge = ({ score }: { score: number }) => {
   const tone = score >= 75 ? "bg-success text-success-foreground" : score >= 50 ? "bg-accent text-accent-foreground" : "bg-secondary text-foreground";

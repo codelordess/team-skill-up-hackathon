@@ -4,7 +4,7 @@ import { Layout } from "@/components/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { calculateMatch } from "@/lib/scoring";
-import { Briefcase, Building2, Edit3, Loader2, Plus, Search, Star, Users } from "lucide-react";
+import { Brain, Briefcase, Building2, Edit3, Loader2, Plus, Search, Star, Users } from "lucide-react";
 
 type Employer = { id: string; company_name: string; industry: string | null; description: string | null; website: string | null };
 type Job = { id: string; title: string; required_skills: string[]; location: string | null; created_at: string };
@@ -74,6 +74,9 @@ const EmployerDashboard = () => {
             <div className="flex flex-wrap gap-2">
               <Link to="/employer/edit" className="inline-flex items-center gap-2 rounded-xl border border-navy-foreground/20 bg-navy-foreground/5 px-4 py-2.5 text-sm font-semibold text-navy-foreground hover:bg-navy-foreground/10">
                 <Edit3 className="h-4 w-4" /> Company profile
+              </Link>
+              <Link to="/employer/founder-assistant" className="inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/20 transition">
+                <Brain className="h-4 w-4" /> AI Setup Assistant
               </Link>
               <Link to="/employer/jobs/new" className="inline-flex items-center gap-2 rounded-xl bg-gradient-accent px-5 py-2.5 font-bold text-accent-foreground shadow-elegant transition-smooth hover:shadow-glow">
                 <Plus className="h-4 w-4" /> Post a job
@@ -158,7 +161,13 @@ const EmployerDashboard = () => {
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {(j.required_skills || []).slice(0, 5).map(s => <span key={s} className="rounded-full bg-secondary px-2 py-0.5 text-[11px]">{s}</span>)}
                     </div>
-                    <p className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary">View matches <Search className="h-3 w-3" /></p>
+                    <div className="mt-3 flex items-center gap-4">
+                      <p className="inline-flex items-center gap-1 text-xs font-semibold text-primary">View matches <Search className="h-3 w-3" /></p>
+                      <Link to={`/employer/jobs/${j.id}/applications`} onClick={e => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground transition">
+                        Applications ({talents.filter(t => calculateMatch({ talentSkills: t.extracted_skills, jobSkills: j.required_skills }).score >= 0).length})
+                      </Link>
+                    </div>
                   </Link>
                 );
               })}

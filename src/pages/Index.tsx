@@ -1,16 +1,43 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Brain, Eye, MapPin, Sparkles, Target, TrendingUp, Users } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import heroImg from "@/assets/hero-skillmap.jpg";
-import { TALENTS } from "@/data/mockData";
 import { TalentCard } from "@/components/TalentCard";
+import { supabase } from "@/integrations/supabase/client";
+import { getSkillColor } from "@/lib/matchmaker";
 
-const stats = [
-  { value: "12,400+", label: "Talents mapped" },
-  { value: "850+", label: "Live opportunities" },
-  { value: "3", label: "Launch countries" },
-  { value: "92%", label: "AI extraction accuracy" },
-];
+// ── Real stats fetched from Supabase ──────────────────────────────────────
+type LiveStats = {
+  talents: number;
+  opportunities: number;
+  countries: number;
+};
+
+// ── Map Supabase talent row → TalentProfile shape for TalentCard ──────────
+function mapToTalentProfile(t: any, p: any) {
+  const name = p?.name || "Talent";
+  const initials = name.split(" ").map((n: string) => n[0]).slice(0, 2).join("").toUpperCase();
+  const color = getSkillColor(t.primary_skill || "");
+  return {
+    id: t.user_id,
+    name,
+    initials,
+    city: p?.location?.split(",")[0]?.trim() || "Africa",
+    country: p?.location?.split(",")[1]?.trim() || "",
+    age: "",
+    primarySkill: t.primary_skill || "General Skills",
+    detectedSkills: t.extracted_skills || [],
+    experienceLevel: t.experience_level || "Beginner",
+    credibilityScore: t.credibility_score || 50,
+    available: t.available ?? true,
+    avatarColor: color,
+    bio: t.skill_description || "",
+    proofLinks: [],
+    careerGoals: t.career_goals || "",
+    profileViews: t.profile_views || 0,
+  };
+}
 
 const features = [
   {
@@ -36,7 +63,73 @@ const features = [
 ];
 
 const Index = () => {
-  const featured = TALENTS.slice(0, 3);
+  const [stats, setStats] = useState<LiveStats>({ talents: 0, opportunities: 0, countries: 0 });
+  const [featured, setFeatured] = useState<any[]>([]);
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // Fetch counts in parallel
+        const [
+          { count: talentCount },
+          { count: oppCount },
+          { data: talentRows },
+        ] = await Promise.all([
+          supabase.from("talents").select("*", { count: "exact", head: true }).eq("available", true),
+          supabase.from("opportunities").select("*", { count: "exact", head: true }).eq("active", true),
+          supabase.from("talents")
+            .select("user_id, primary_skill, extracted_skills, experience_level, credibility_score, available, skill_description, career_goals, profile_views")
+            .eq("available", true)
+            .not("primary_skill", "is", null)
+            .order("credibility_score", { ascending: false })
+            .limit(6),
+        ]);
+
+        // Count unique countries from profiles
+        let countryCount = 3;
+        if (talentRows?.length) {
+          const ids = talentRows.map(t => t.user_id);
+          const { data: profiles } = await supabase
+            .from("profiles")
+            .select("id, name, location")
+            .in("id", ids);
+
+          const profileMap: Record<string, any> = {};
+          profiles?.forEach(p => { profileMap[p.id] = p; });
+
+          // Count unique countries
+          const countries = new Set<string>();
+          profiles?.forEach(p => {
+            const country = p.location?.split(",")[1]?.trim();
+            if (country) countries.add(country);
+          });
+          countryCount = Math.max(countries.size, 3);
+
+          // Map to TalentCard shape
+          const mapped = talentRows.slice(0, 3).map(t => mapToTalentProfile(t, profileMap[t.user_id]));
+          setFeatured(mapped);
+        }
+
+        setStats({
+          talents: talentCount || 0,
+          opportunities: oppCount || 0,
+          countries: countryCount,
+        });
+      } catch (e) {
+        console.error("Failed to load homepage stats:", e);
+      } finally {
+        setLoadingStats(false);
+      }
+    })();
+  }, []);
+
+  const displayStats = [
+    { value: loadingStats ? "..." : `${stats.talents.toLocaleString()}+`, label: "Talents mapped" },
+    { value: loadingStats ? "..." : `${stats.opportunities.toLocaleString()}+`, label: "Live opportunities" },
+    { value: loadingStats ? "..." : `${stats.countries}`, label: "Countries" },
+    { value: "92%", label: "AI extraction accuracy" },
+  ];
 
   return (
     <Layout>
@@ -76,10 +169,13 @@ const Index = () => {
               </Link>
             </div>
 
+            {/* Live stats */}
             <div className="mt-16 grid grid-cols-2 gap-6 md:grid-cols-4">
-              {stats.map(s => (
+              {displayStats.map(s => (
                 <div key={s.label} className="text-center">
-                  <div className="font-display text-3xl font-extrabold text-primary-glow md:text-4xl">{s.value}</div>
+                  <div className={`font-display text-3xl font-extrabold text-primary-glow md:text-4xl transition-all ${loadingStats ? "animate-pulse opacity-60" : ""}`}>
+                    {s.value}
+                  </div>
                   <div className="mt-1 text-xs uppercase tracking-wider text-navy-foreground/60">{s.label}</div>
                 </div>
               ))}
@@ -145,20 +241,42 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured talent */}
+      {/* Featured talent — real from Supabase */}
       <section className="container py-20">
         <div className="mb-10 flex items-end justify-between">
           <div>
             <div className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">Featured talent</div>
-            <h2 className="text-3xl font-bold md:text-4xl">Real people. Real skills.</h2>
+            <h2 className="text-3xl font-bold md:text-4xl">
+              {featured.length > 0 ? "Real people. Real skills." : "Be the first on SkillMap."}
+            </h2>
           </div>
           <Link to="/auth?mode=signup&role=employer" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline md:inline-flex">
             Browse all talent <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {featured.map(t => <TalentCard key={t.id} talent={t} />)}
-        </div>
+
+        {featured.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {featured.map(t => <TalentCard key={t.id} talent={t} />)}
+          </div>
+        ) : (
+          /* Empty state — encourage signups */
+          <div className="grid gap-6 md:grid-cols-3">
+            {["Frontend Developer", "UI/UX Designer", "Video Editor"].map((role, i) => (
+              <div key={role} className="rounded-2xl border border-dashed border-border bg-card/50 p-6 text-center space-y-3">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-2xl">
+                  {["💻", "🎨", "🎬"][i]}
+                </div>
+                <p className="font-bold">{role}</p>
+                <p className="text-xs text-muted-foreground">Be the first {role} on SkillMap</p>
+                <Link to="/auth?mode=signup&role=talent"
+                  className="inline-flex items-center gap-1 rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20 transition">
+                  Join now <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Demo flow callout */}
