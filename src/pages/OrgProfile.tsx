@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { ORGANIZATIONS } from "@/data/mockData";
 import { SdgBadge } from "@/components/SdgBadge";
-import { ArrowLeft, Calendar, CheckCircle2, DollarSign, Globe, Mail, MapPin, ShieldCheck, Target, TrendingUp, Users } from "lucide-react";
+import { ArrowLeft, Calendar, CheckCircle2, DollarSign, ExternalLink, Globe, Mail, MapPin, ShieldCheck, Target, TrendingUp, Users } from "lucide-react";
 
 const OrgProfile = () => {
   const { id } = useParams();
@@ -48,9 +48,21 @@ const OrgProfile = () => {
                 <span className="inline-flex items-center gap-1.5"><Globe className="h-4 w-4" />{org.sector}</span>
               </div>
             </div>
-            <button className="inline-flex items-center gap-2 rounded-xl bg-gradient-accent px-5 py-3 font-bold text-accent-foreground shadow-elegant transition-smooth hover:shadow-glow">
-              <Mail className="h-4 w-4" /> Contact partner
-            </button>
+            <div className="flex flex-col gap-2">
+              {org.website && (
+                <a
+                  href={org.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-accent px-5 py-3 font-bold text-accent-foreground shadow-elegant transition-smooth hover:shadow-glow"
+                >
+                  <ExternalLink className="h-4 w-4" /> Visit website
+                </a>
+              )}
+              <button className="inline-flex items-center gap-2 rounded-xl border border-navy-foreground/20 bg-navy-foreground/5 px-5 py-3 font-semibold text-navy-foreground transition-smooth hover:bg-navy-foreground/10">
+                <Mail className="h-4 w-4" /> Contact partner
+              </button>
+            </div>
           </div>
         </div>
       </section>
