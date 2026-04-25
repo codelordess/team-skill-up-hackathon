@@ -56,9 +56,16 @@ export const OrgCard = ({ org }: { org: Organization }) => {
         </div>
       </div>
 
-      <div className="mt-4 flex items-center text-sm font-semibold text-primary">
-        View profile
-        <ArrowRight className="ml-1 h-4 w-4 transition-smooth group-hover:translate-x-1" />
+      <div className="mt-4 flex items-center justify-between text-sm font-semibold">
+        <span className="flex items-center text-primary">
+          View profile
+          <ArrowRight className="ml-1 h-4 w-4 transition-smooth group-hover:translate-x-1" />
+        </span>
+        {org.website && (
+          <span className="text-xs font-medium text-muted-foreground">
+            {org.website.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+          </span>
+        )}
       </div>
     </Link>
   );
