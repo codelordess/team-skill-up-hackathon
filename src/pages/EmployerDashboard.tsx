@@ -75,11 +75,12 @@ const EmployerDashboard = () => {
               <Link to="/employer/edit" className="inline-flex items-center gap-2 rounded-xl border border-navy-foreground/20 bg-navy-foreground/5 px-4 py-2.5 text-sm font-semibold text-navy-foreground hover:bg-navy-foreground/10">
                 <Edit3 className="h-4 w-4" /> Company profile
               </Link>
-              <Link to="/employer/founder-assistant" className="inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/20 transition">
-                <Brain className="h-4 w-4" /> AI Setup Assistant
-              </Link>
-              <Link to="/employer/jobs/new" className="inline-flex items-center gap-2 rounded-xl bg-gradient-accent px-5 py-2.5 font-bold text-accent-foreground shadow-elegant transition-smooth hover:shadow-glow">
+            
+              <Link to="/employer/jobs/new" className="inline-flex items-center gap-2 rounded-xl border border-navy-foreground/20 bg-navy-foreground/5 px-4 py-2.5 text-sm font-semibold text-navy-foreground hover:bg-navy-foreground/10">
                 <Plus className="h-4 w-4" /> Post a job
+              </Link>
+                <Link to="/employer/founder-assistant" className="inline-flex items-center gap-2 rounded-xl bg-gradient-accent px-5 py-2.5 font-bold text-accent-foreground shadow-elegant transition-smooth hover:shadow-glow">
+                <Brain className="h-4 w-4" /> AI Setup Assistant
               </Link>
             </div>
           </div>
