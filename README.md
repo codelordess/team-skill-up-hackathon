@@ -11,7 +11,6 @@ Visit the application: [https://team-skill-up-hackathon.vercel.app](https://team
 ## 📋 Table of Contents
 
 - [Overview](#overview)
-- [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Language Composition](#language-composition)
 - [Getting Started](#getting-started)
@@ -21,7 +20,7 @@ Visit the application: [https://team-skill-up-hackathon.vercel.app](https://team
 - [Testing](#testing)
 - [Project Structure](#project-structure)
 - [Available Scripts](#available-scripts)
-- [Dependencies Overview](#dependencies-overview)
+- [Key Integrations](#key-integrations)
 - [Contributing](#contributing)
 - [Support & Resources](#support--resources)
 
@@ -32,27 +31,6 @@ Visit the application: [https://team-skill-up-hackathon.vercel.app](https://team
 **Team Skill-Up Hackathon** is a modern web application designed to facilitate team skill development and knowledge sharing. The platform leverages cutting-edge technologies to provide an intuitive, accessible, and feature-rich experience for users looking to upskill and collaborate with their peers.
 
 Built with **TypeScript**, **React**, **Vite**, and **Supabase**, this project demonstrates best practices in modern web development, including component-driven architecture, real-time data synchronization, and responsive design patterns.
-
----
-
-## ✨ Features
-
-### Core Features
-- **Skill Tracking & Management** - Track and monitor skill development progress
-- **Team Collaboration** - Work together on skill-building challenges and projects
-- **Real-time Updates** - Live synchronization across all team members
-- **User Authentication** - Secure access with Supabase authentication
-
-### Technical Features
-- **Type-Safe Development** - Full TypeScript support for robust code
-- **Component Library** - Comprehensive UI components via shadcn/ui
-- **Responsive Design** - Mobile-first approach with Tailwind CSS
-- **Form Validation** - Robust form handling with React Hook Form and Zod
-- **State Management** - Efficient data fetching with TanStack Query
-- **Dark Mode Support** - Theme switching with next-themes
-- **Accessible UI** - Built on Radix UI primitives for accessibility
-- **Testing Framework** - Unit and integration testing with Vitest
-- **Code Quality** - ESLint configuration for code consistency
 
 ---
 
@@ -70,40 +48,7 @@ Built with **TypeScript**, **React**, **Vite**, and **Supabase**, this project d
 - **Lucide React** - Beautiful icon library
 - **Tailwind Merge** - Merge Tailwind CSS classes intelligently
 
-### State Management & Data Fetching
-- **TanStack Query** (v5.83.0) - Powerful data synchronization library
-- **Supabase JavaScript Client** (v2.104.1) - Backend-as-a-Service integration
-- **React Hook Form** (v7.61.1) - Performant form management
-- **React Router DOM** (v6.30.1) - Client-side routing
-
-### Form Handling & Validation
-- **Zod** (v3.25.76) - TypeScript-first schema validation
-- **@hookform/resolvers** (v3.10.0) - Integration between React Hook Form and validation libraries
-- **Input OTP** (v1.4.2) - OTP input component
-
-### UI Components & Effects
-- **Embla Carousel** (v8.6.0) - Carousel/slider component library
-- **React Day Picker** (v8.10.1) - Date picker component
-- **React Resizable Panels** (v2.1.9) - Resizable panel component
-- **Sonner** (v1.7.4) - Toast notification library
-- **Vaul** (v0.9.9) - Drawer component for React
-- **Class Variance Authority** (v0.7.1) - CSS class composition utility
-
-### Theming
-- **next-themes** (v0.3.0) - Theme management solution
-- **Tailwindcss Animate** (v1.0.7) - Animation utilities for Tailwind
-
-### Development Tools
-- **Vitest** (v3.2.4) - Unit test framework
-- **@testing-library/react** (v16.0.0) - React component testing utilities
-- **@testing-library/jest-dom** (v6.6.0) - Custom matchers for DOM testing
-- **ESLint** (v9.32.0) - JavaScript linter with TypeScript support
-- **Autoprefixer** (v10.4.21) - PostCSS plugin for vendor prefixes
-- **PostCSS** (v8.5.6) - Tool for transforming CSS
-
-### Build & Plugin Tools
-- **@vitejs/plugin-react-swc** (v3.11.0) - Vite plugin for React with SWC transpiler
-- **Lovable Tagger** (v1.1.13) - Development utility
+> 📌 **Note:** The backend for this project is located at [@emmanuelfred/skillmap-backend](https://github.com/emmanuelfred/skillmap-backend). Refer to that repository for backend setup, deployment, and API documentation.
 
 ---
 
@@ -293,47 +238,6 @@ team-skill-up-hackathon/
 
 ---
 
-## 📚 Dependencies Overview
-
-### UI Component Framework (Radix UI)
-The application uses **Radix UI** primitives via **shadcn/ui**, providing:
-- **Accordion** - Collapsible content sections
-- **Alert Dialog** - Alert and confirmation dialogs
-- **Avatar** - User profile images
-- **Checkbox, Radio Group, Switch, Toggle** - Form inputs
-- **Collapsible** - Expandable content
-- **Context Menu** - Right-click menus
-- **Dialog, Popover** - Modal dialogs
-- **Dropdown Menu** - Dropdown menus
-- **Hover Card** - Hover tooltips
-- **Label** - Form labels
-- **Menubar** - Application menu bar
-- **Navigation Menu** - Site navigation
-- **Progress, Slider** - Progress and range inputs
-- **Scroll Area** - Scrollable content containers
-- **Select** - Dropdown select inputs
-- **Separator** - Visual dividers
-- **Tabs** - Tabbed content
-- **Toast, Tooltip** - Notifications and hints
-
-### Data Management
-- **TanStack Query** - Server state management and caching
-- **Supabase** - Backend database and authentication
-- **React Router DOM** - Client-side routing
-
-### Form Management
-- **React Hook Form** - Performant form state management
-- **Zod** - Schema validation
-- **@hookform/resolvers** - Bridge between form and validation
-
-### Utilities
-- **date-fns** - Date manipulation and formatting
-- **clsx** - Conditional CSS class generation
-- **tailwind-merge** - Intelligent Tailwind class merging
-- **cmdk** - Command menu component
-
----
-
 ## 🔌 Key Integrations
 
 ### Supabase
@@ -394,10 +298,10 @@ We welcome contributions from the community! To contribute:
 - **Tailwind CSS** - [tailwindcss.com](https://tailwindcss.com/)
 - **shadcn/ui** - [ui.shadcn.com](https://ui.shadcn.com/)
 - **Supabase** - [supabase.com/docs](https://supabase.com/docs)
-- **TanStack Query** - [tanstack.com/query](https://tanstack.com/query)
 
 ### GitHub
 - **Repository** - [github.com/codelordess/team-skill-up-hackathon](https://github.com/codelordess/team-skill-up-hackathon)
+- **Backend Repository** - [github.com/emmanuelfred/skillmap-backend](https://github.com/emmanuelfred/skillmap-backend)
 - **Issues** - [Report bugs or request features](https://github.com/codelordess/team-skill-up-hackathon/issues)
 - **Discussions** - [Community discussions](https://github.com/codelordess/team-skill-up-hackathon/discussions)
 
