@@ -8,7 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 const publicLinks = [
   { to: "/", label: "Home" },
   { to: "/opportunities", label: "Opportunities" },
-  { to: "/map", label: "Talent Map" },
+ 
+   { to: "/map", label: "Talent Map" }, { to: "/about", label: "About Us" },
 ];
 
 export const Navbar = () => {

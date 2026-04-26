@@ -25,6 +25,7 @@ import Notifications from "./pages/Notifications.tsx";
 import FounderAssistant from "./pages/FounderAssistant.tsx";
 import JobApplications from "./pages/JobApplications.tsx";
 import SkillAssessment from "./pages/SkillAssessment.tsx";
+import About from "./pages/About.tsx";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
 
             {/* ── Auth ── */}
             <Route path="/auth" element={<Auth />} />
