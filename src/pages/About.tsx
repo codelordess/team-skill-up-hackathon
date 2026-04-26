@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
+  Briefcase,
+  FileCheck,
   Globe,
   Heart,
-  Lightbulb,
   MapPin,
   Rocket,
   Shield,
@@ -67,12 +68,44 @@ const values = [
   },
 ];
 
-// ── Milestones ────────────────────────────────────────────────────────────────
-const milestones = [
-  { year: "2022", event: "Founded in Accra after watching a brilliant developer get rejected for lacking a degree." },
-  { year: "2023", event: "Launched beta with 200 talents across Nigeria, Ghana, and Uganda." },
-  { year: "2024", event: "Partnered with 40+ employers across Africa, Europe, and North America." },
-  { year: "2025", event: "Crossed 10,000 talent profiles. Expanded to 12 countries across the Global South." },
+// ── How it works steps ───────────────────────────────────────────────────────
+const steps = [
+  {
+    icon: Target,
+    step: "01",
+    title: "AI Skill Assessment",
+    sub: "Describe what you do in your own words.",
+    desc: "SkillMap analyzes your experience and turns it into a structured, employer-ready talent profile.",
+  },
+  {
+    icon: Briefcase,
+    step: "02",
+    title: "Match User to Employer",
+    sub: "Get matched with real opportunities.",
+    desc: "We recommend jobs, gigs, training, and mentorship based on your actual skills, level, and goals.",
+  },
+  {
+    icon: FileCheck,
+    step: "03",
+    title: "Enhance Profile",
+    sub: "Build trust with proof of work.",
+    desc: "Add GitHub links, portfolios, projects, or work samples so employers can understand what you can actually do.",
+  },
+  {
+    icon: Rocket,
+    step: "04",
+    title: "Get Hired",
+    sub: "Become visible to employers globally.",
+    desc: "Employers can discover you based on skills, not just degrees, networks, or formal job history.",
+  },
+];
+
+// ── What SkillMap solves ──────────────────────────────────────────────────────
+const gaps = [
+  "Formal degrees",
+  "Professional networks",
+  "Polished CVs",
+  "Access to global employers",
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -98,9 +131,7 @@ const About = () => {
               <span className="text-gradient-accent">overlooked</span> themselves.
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-navy-foreground/75 md:text-xl">
-              SkillMap exists because talent is everywhere — but opportunity isn't.
-              We're changing that with AI, transparency, and a stubborn belief that
-              informal doesn't mean inferior.
+              No degree. No network. Just your skills — made visible.
             </p>
           </div>
         </div>
@@ -173,25 +204,93 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── Story / Timeline ──────────────────────────────────────────────── */}
+      {/* ── Our Story ─────────────────────────────────────────────────────── */}
       <section className="container py-20">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-3xl">
           <div className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">How we got here</div>
-          <h2 className="mb-12 text-3xl font-bold md:text-4xl">Our journey</h2>
-          <div className="relative space-y-0">
-            {/* vertical line */}
-            <div className="absolute left-6 top-0 h-full w-px bg-border" />
-            {milestones.map((m, i) => (
-              <div key={m.year} className="relative flex gap-6 pb-10 last:pb-0">
-                {/* dot */}
-                <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-primary shadow-card">
-                  <span className="text-xs font-bold text-primary-foreground">{m.year}</span>
+          <h2 className="mb-8 text-3xl font-bold md:text-4xl">Our Story</h2>
+          <div className="space-y-5 text-lg text-muted-foreground leading-relaxed">
+            <p>
+              SkillMap exists because millions of young people have real skills, but no formal way to prove them.
+            </p>
+            <p>
+              A self-taught developer in Accra may have built websites, learned from YouTube, and helped local
+              businesses — but without a degree, network, or polished CV,{" "}
+              <span className="font-semibold text-foreground">employers may never find them.</span>
+            </p>
+            <p>
+              SkillMap turns informal experience into employer-ready talent profiles, then matches that talent
+              to real opportunities.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── How It Works ──────────────────────────────────────────────────── */}
+      <section className="bg-secondary/40 py-20">
+        <div className="container">
+          <div className="mx-auto mb-14 max-w-2xl text-center">
+            <div className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">The process</div>
+            <h2 className="text-3xl font-bold md:text-4xl">How it works</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {steps.map((s) => (
+              <div
+                key={s.step}
+                className="group relative rounded-2xl border border-border bg-card p-6 shadow-card transition-smooth hover:-translate-y-1 hover:shadow-elegant"
+              >
+                <div className="absolute right-5 top-5 font-display text-5xl font-black text-primary/5">{s.step}</div>
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground shadow-card transition-smooth group-hover:shadow-glow">
+                  <s.icon className="h-5 w-5" />
                 </div>
-                <div className="pt-2.5">
-                  <p className="text-sm font-medium text-foreground leading-relaxed">{m.event}</p>
-                </div>
+                <h3 className="mb-1 font-display text-base font-bold">{s.title}</h3>
+                <p className="mb-2 text-xs font-semibold text-accent">{s.sub}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── What SkillMap Solves ───────────────────────────────────────────── */}
+      <section className="container py-20">
+        <div className="grid gap-12 md:grid-cols-2 md:items-center">
+          <div>
+            <div className="mb-3 text-sm font-bold uppercase tracking-widest text-accent">The problem</div>
+            <h2 className="mb-6 text-3xl font-bold leading-snug md:text-4xl">What SkillMap solves</h2>
+            <p className="mb-6 text-lg text-muted-foreground">
+              Many young people have skills but lack the things the system expects. SkillMap helps them
+              show what they can do and get matched with opportunities that fit.
+            </p>
+            <div className="space-y-3">
+              {gaps.map((gap) => (
+                <div key={gap} className="flex items-center gap-3">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-destructive/10">
+                    <span className="h-2 w-2 rounded-full bg-destructive block" />
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground line-through decoration-destructive/50">{gap}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-border bg-card p-8 shadow-card">
+            <div className="absolute -top-3 left-8" />
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-primary">With SkillMap instead</div>
+            <div className="space-y-4">
+              {[
+                { icon: Target,    text: "AI extracts and structures your real skills from plain descriptions" },
+                { icon: Briefcase, text: "Get matched to jobs, gigs, and training that fit your actual level" },
+                { icon: Globe,     text: "Become discoverable to employers worldwide — no gatekeeping" },
+                { icon: FileCheck, text: "Proof of work replaces credentials as the trust signal" },
+              ].map((item) => (
+                <div key={item.text} className="flex items-start gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <item.icon className="h-4 w-4" />
+                  </div>
+                  <p className="pt-1.5 text-sm font-medium leading-relaxed">{item.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
