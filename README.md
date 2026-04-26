@@ -4,9 +4,9 @@
 
 ## 🌐 Live Demo
 
-Visit the application: [https://team-skill-up-hackathon.vercel.app](https://team-skill-up-hackathon.vercel.app)
-Front end repo: [Team-SkillMap](https://github.com/codelordess/team-skill-up-hackathon.git)
-Back-end repo: [SkillMapbackend](https://github.com/emmanuelfred/skillmap)
+- Visit the application: [https://team-skill-up-hackathon.vercel.app](https://team-skill-up-hackathon.vercel.app)
+- Front end repo: [Team-SkillMap](https://github.com/codelordess/team-skill-up-hackathon.git)
+- Back-end repo: [SkillMapbackend](https://github.com/emmanuelfred/skillmap)
 
 ---
 
