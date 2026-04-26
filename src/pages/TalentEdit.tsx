@@ -483,16 +483,16 @@ const TalentEdit = () => {
         <Block title="Social & online presence" icon={<Globe className="h-4 w-4" />}>
           {socialLinks.map((link, i) => (
             <div key={i} className="flex gap-2">
-              <select value={link.label}
+              <select  value={link.label}
                 onChange={e => { const c = [...socialLinks]; c[i].label = e.target.value; setSocialLinks(c); }}
-                className={`${inputCls} w-36 shrink-0`}>
+                className={`${inputCls} w-36 `} style={{width:'fit-content'}} >
                 {["GitHub", "LinkedIn", "Twitter", "Behance", "Dribbble", "YouTube", "Instagram", "Other"].map(o => (
                   <option key={o}>{o}</option>
                 ))}
               </select>
               <input value={link.url}
                 onChange={e => { const c = [...socialLinks]; c[i].url = e.target.value; setSocialLinks(c); }}
-                placeholder="https://..." className={inputCls} />
+                placeholder="https://..." className={inputCls} style={{'flex': 1}}  />
               <button onClick={() => setSocialLinks(socialLinks.filter((_, x) => x !== i))}
                 className="rounded-lg border border-input px-3 hover:bg-secondary shrink-0">
                 <Trash2 className="h-4 w-4" />
@@ -512,7 +512,7 @@ const TalentEdit = () => {
             <div key={i} className="flex gap-2">
               <input value={p.label}
                 onChange={e => { const c = [...proofLinks]; c[i].label = e.target.value; setProofLinks(c); }}
-                placeholder="Label (e.g. Client project)" className={`${inputCls} w-40 shrink-0`} />
+                placeholder="Label (e.g. Client project)" className={`${inputCls}`} style={{'width':'fit-content'}} />
               <input value={p.url}
                 onChange={e => { const c = [...proofLinks]; c[i].url = e.target.value; setProofLinks(c); }}
                 placeholder="https://..." className={inputCls} />

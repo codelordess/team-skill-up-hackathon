@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Brain, Eye, MapPin, Sparkles, Target, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, Brain, Eye, Lightbulb, MapPin, Monitor, Palette, Sparkles, Target, TrendingUp, Users, Video } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import heroImg from "@/assets/hero-skillmap.jpg";
 import { TalentCard } from "@/components/TalentCard";
@@ -262,10 +262,14 @@ const Index = () => {
         ) : (
           /* Empty state — encourage signups */
           <div className="grid gap-6 md:grid-cols-3">
-            {["Frontend Developer", "UI/UX Designer", "Video Editor"].map((role, i) => (
+            {[
+              { role: "Frontend Developer", Icon: Monitor },
+              { role: "UI/UX Designer",     Icon: Palette },
+              { role: "Video Editor",        Icon: Video   },
+            ].map(({ role, Icon }) => (
               <div key={role} className="rounded-2xl border border-dashed border-border bg-card/50 p-6 text-center space-y-3">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-2xl">
-                  {["💻", "🎨", "🎬"][i]}
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Icon className="h-6 w-6" />
                 </div>
                 <p className="font-bold">{role}</p>
                 <p className="text-xs text-muted-foreground">Be the first {role} on SkillMap</p>
@@ -283,8 +287,8 @@ const Index = () => {
       <section className="container pb-12">
         <div className="rounded-3xl border border-border bg-gradient-card p-8 shadow-card md:p-12">
           <div className="grid gap-8 md:grid-cols-[auto,1fr] md:items-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-primary text-4xl shadow-glow">
-              💡
+            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">
+              <Lightbulb className="h-9 w-9" />
             </div>
             <div>
               <div className="mb-2 text-xs font-bold uppercase tracking-widest text-accent">Demo flow</div>
