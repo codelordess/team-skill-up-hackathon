@@ -48,7 +48,7 @@ Built with **TypeScript**, **React**, **Vite**, and **Supabase**, this project d
 - **Lucide React** - Beautiful icon library
 - **Tailwind Merge** - Merge Tailwind CSS classes intelligently
 
-> 📌 **Note:** The backend for this project is located at [@emmanuelfred/skillmap-backend](https://github.com/emmanuelfred/skillmap-backend). Refer to that repository for backend setup, deployment, and API documentation.
+> 📌 **Note:** The backend for this project is located at [skillmap-backend](https://github.com/emmanuelfred/skillmap.git). Refer to that repository for backend setup, deployment, and API documentation.
 
 ---
 
