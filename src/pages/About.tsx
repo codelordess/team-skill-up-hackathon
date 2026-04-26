@@ -19,7 +19,7 @@ import { Layout } from "@/components/Layout";
 const team = [
   {
     name: "Hephzibah Emereole",
-    role: "Project Manager ",
+    role: "Technical Lead ",
     location: "Accra, Ghana",
     bio: "Former software engineer who saw brilliant developers overlooked because they lacked degrees. Built SkillMap to fix that.",
     initials: "HE",
