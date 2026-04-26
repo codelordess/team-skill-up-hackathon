@@ -1,4 +1,4 @@
-# Team Skill-Up Hackathon
+# Team Skill-Map Hackathon
 
 > A comprehensive skill-building platform built with modern web technologies to help teams upskill and collaborate effectively.
 
